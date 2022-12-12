@@ -24,12 +24,12 @@ public class MuseumCommandHandler extends BaseCommand {
     @CatchUnknown
     @Default
     public void doHelp(CommandSender sender) {
-        sender.sendMessage(plugin.getMuseumConfig().getMessage("cmd-help"));
+        sender.sendMessage(ChatMessages.getMessage("cmd-help"));
     }
 
     @Subcommand("reload")
     public void subCmdReload(CommandSender sender) {
         plugin.getMuseumConfig().load();
-        sender.sendMessage(plugin.getMuseumConfig().getMessage("configuration-loaded"));
+        sender.sendMessage(ChatMessages.getMessage("configuration-loaded"));
     }
 }

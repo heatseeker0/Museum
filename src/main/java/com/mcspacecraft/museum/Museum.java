@@ -30,6 +30,8 @@ public class Museum extends JavaPlugin {
     public void onEnable() {
         plugin = this;
 
+        ChatMessages.loadPluginMessages(getClassLoader());
+
         config = new MuseumConfig(this);
         config.load();
 

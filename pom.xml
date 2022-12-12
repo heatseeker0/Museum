@@ -66,6 +66,7 @@
                 <filtering>true</filtering>
                 <includes>
                     <include>*.yml</include>
+                    <include>messages.properties</include>
                 </includes>
             </resource>
         </resources>
