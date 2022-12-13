@@ -31,16 +31,20 @@ public class MuseumConfig {
         chatDisabled = config.getBoolean("disable-chat", false);
     }
 
+    public FileConfiguration getRawConfig() {
+        return config;
+    }
+
     public boolean getDebug() {
         return debug;
     }
 
-    public boolean stopLoginMessages() {
-        return stopLoginMessages;
+    public void showLoginMesages(boolean value) {
+        this.stopLoginMessages = value;
     }
 
-    public FileConfiguration getRawConfig() {
-        return config;
+    public boolean stopLoginMessages() {
+        return stopLoginMessages;
     }
 
     public void setChatDisabled(boolean chatDisabled) {

@@ -7,6 +7,7 @@ import com.mcspacecraft.museum.util.ChatMessages;
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CatchUnknown;
 import co.aikar.commands.annotation.CommandAlias;
+import co.aikar.commands.annotation.CommandCompletion;
 import co.aikar.commands.annotation.CommandPermission;
 import co.aikar.commands.annotation.Default;
 import co.aikar.commands.annotation.Subcommand;
@@ -37,13 +38,26 @@ public class MuseumCommandHandler extends BaseCommand {
     }
 
     @Subcommand("chat")
-    public void subCmdChat(CommandSender sender, @Values("on,off") String value) {
+    @CommandCompletion("@onoff")
+    public void subCmdChat(CommandSender sender, @Values("@onoff") String value) {
         if (value.equals("on")) {
             plugin.getMuseumConfig().setChatDisabled(false);
-            sender.sendMessage(ChatMessages.getMessage("chat-enabled"));
+            sender.sendMessage(ChatMessages.getMessage("admin.chat-enabled"));
         } else {
             plugin.getMuseumConfig().setChatDisabled(true);
-            sender.sendMessage(ChatMessages.getMessage("chat-disabled"));
+            sender.sendMessage(ChatMessages.getMessage("admin.chat-disabled"));
+        }
+    }
+
+    @Subcommand("login")
+    @CommandCompletion("@onoff")
+    public void subCmdLoginMessages(CommandSender sender, @Values("@onoff") String value) {
+        if (value.equals("on")) {
+            plugin.getMuseumConfig().showLoginMesages(true);
+            sender.sendMessage(ChatMessages.getMessage("admin.login-msgs-enabled"));
+        } else {
+            plugin.getMuseumConfig().showLoginMesages(false);
+            sender.sendMessage(ChatMessages.getMessage("admin.login-msgs-disabled"));
         }
     }
 }

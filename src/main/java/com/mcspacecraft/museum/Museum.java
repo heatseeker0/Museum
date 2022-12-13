@@ -12,6 +12,8 @@ import org.bukkit.plugin.java.annotation.plugin.LoadOrder;
 import org.bukkit.plugin.java.annotation.plugin.Plugin;
 import org.bukkit.plugin.java.annotation.plugin.author.Author;
 
+import com.google.common.collect.ImmutableList;
+import com.mcspacecraft.museum.islands.IslandWorld;
 import com.mcspacecraft.museum.listeners.ChatHandlerListener;
 import com.mcspacecraft.museum.listeners.PlayerListener;
 import com.mcspacecraft.museum.listeners.WeatherChangeListener;
@@ -29,9 +31,10 @@ import co.aikar.commands.PaperCommandManager;
 @ApiVersion(Target.v1_19)
 public class Museum extends JavaPlugin {
     private static Museum plugin;
-    public static final Logger logger = Logger.getLogger("Minecraft.Museum");
+    public static final Logger logger = Logger.getLogger("Museum");
 
     private MuseumConfig config;
+    private IslandWorld islandWorld;
 
     @Override
     public void onEnable() {
@@ -50,6 +53,14 @@ public class Museum extends JavaPlugin {
 
         PaperCommandManager manager = new PaperCommandManager(this);
         manager.registerCommand(new MuseumCommandHandler(this));
+
+        manager.getCommandCompletions().registerCompletion("onoff", c -> {
+            return ImmutableList.of("on", "off");
+        });
+
+        islandWorld = new IslandWorld();
+        islandWorld.loadIslandList();
+        islandWorld.buildIslandLookupMap();
     }
 
     @Override
@@ -68,17 +79,17 @@ public class Museum extends JavaPlugin {
 
     public void logInfoMessage(final String msg, final Object... args) {
         if (args == null || args.length == 0) {
-            logger.info(String.format("[%s] %s", getDescription().getName(), msg));
+            logger.info(msg);
         } else {
-            logger.info(String.format("[%s] %s", getDescription().getName(), String.format(msg, args)));
+            logger.info(String.format(msg, args));
         }
     }
 
     public void logErrorMessage(final String msg, final Object... args) {
         if (args == null || args.length == 0) {
-            logger.severe(String.format("[%s] %s", getDescription().getName(), msg));
+            logger.severe(msg);
         } else {
-            logger.severe(String.format("[%s] %s", getDescription().getName(), String.format(msg, args)));
+            logger.severe(String.format(msg, args));
         }
     }
 }
