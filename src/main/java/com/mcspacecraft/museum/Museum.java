@@ -2,6 +2,7 @@ package com.mcspacecraft.museum;
 
 import java.util.logging.Logger;
 
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginLoadOrder;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -95,6 +96,10 @@ public class Museum extends JavaPlugin {
 
     public WarpManager getWarpManager() {
         return warpManager;
+    }
+
+    public boolean canChangeWorld(Player player) {
+        return (player.isOp() || player.hasPermission(MuseumConfig.ADMIN_PERMISSION_NODE)) && !config.isWorldFrozen();
     }
 
     public void logDebugMessage(final String msg, final Object... args) {

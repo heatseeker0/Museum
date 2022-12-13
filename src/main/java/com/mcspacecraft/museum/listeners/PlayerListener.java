@@ -1,11 +1,13 @@
 package com.mcspacecraft.museum.listeners;
 
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityAirChangeEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
+import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerBedEnterEvent;
@@ -14,7 +16,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import com.mcspacecraft.museum.Museum;
-import com.mcspacecraft.museum.MuseumConfig;
+import com.mcspacecraft.museum.util.ChatMessages;
 
 public class PlayerListener implements Listener {
     @EventHandler
@@ -53,13 +55,30 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onPlayerDropItem(PlayerDropItemEvent event) {
         final Player player = event.getPlayer();
-        if (player == null) {
+
+        if (Museum.getInstance().canChangeWorld(player)) {
             return;
         }
 
-        if (!player.isOp() && !player.hasPermission(MuseumConfig.ADMIN_PERMISSION_NODE)) {
+        player.sendMessage(ChatMessages.getMessage("world.frozen"));
+        event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onPlayerPickupItem(EntityPickupItemEvent event) {
+        // Stop entities from picking up items.
+        if (event.getEntityType() != EntityType.PLAYER) {
             event.setCancelled(true);
+            return;
         }
+
+        Player player = (Player) event.getEntity();
+        if (Museum.getInstance().canChangeWorld(player)) {
+            return;
+        }
+
+        player.sendMessage(ChatMessages.getMessage("world.frozen"));
+        event.setCancelled(true);
     }
 
     /**
@@ -117,13 +136,14 @@ public class PlayerListener implements Listener {
      */
     @EventHandler
     public void onPlayerBedEnter(PlayerBedEnterEvent event) {
-        if (event.getBed() == null) {
+        final Player player = event.getPlayer();
+
+        if (Museum.getInstance().canChangeWorld(player)) {
             return;
         }
-
-        if (!event.getPlayer().isOp() && !event.getPlayer().hasPermission(MuseumConfig.ADMIN_PERMISSION_NODE)) {
-            event.setCancelled(true);
-        }
+        
+        player.sendMessage(ChatMessages.getMessage("world.frozen"));
+        event.setCancelled(true);
     }
 
     // @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)

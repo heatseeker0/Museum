@@ -3,3 +3,4 @@ debug: false
 
 stop-login-messages: true
 disable-chat: false
+world-frozen: true

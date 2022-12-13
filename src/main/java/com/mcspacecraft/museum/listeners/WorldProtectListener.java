@@ -1,8 +1,10 @@
 package com.mcspacecraft.museum.listeners;
 
+import org.bukkit.Chunk;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.ItemFrame;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -20,35 +22,46 @@ import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.player.PlayerArmorStandManipulateEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.world.ChunkLoadEvent;
 
-import com.mcspacecraft.museum.MuseumConfig;
+import com.mcspacecraft.museum.Museum;
+import com.mcspacecraft.museum.util.ChatMessages;
 
 public class WorldProtectListener implements Listener {
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
         final Player player = event.getPlayer();
 
-        if (!player.isOp() && !player.hasPermission(MuseumConfig.ADMIN_PERMISSION_NODE)) {
-            event.setCancelled(true);
+        if (Museum.getInstance().canChangeWorld(player)) {
+            return;
         }
+
+        player.sendMessage(ChatMessages.getMessage("world.frozen"));
+        event.setCancelled(true);
     }
 
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent event) {
         final Player player = event.getPlayer();
 
-        if (!player.isOp() && !player.hasPermission(MuseumConfig.ADMIN_PERMISSION_NODE)) {
-            event.setCancelled(true);
+        if (Museum.getInstance().canChangeWorld(player)) {
+            return;
         }
+
+        player.sendMessage(ChatMessages.getMessage("world.frozen"));
+        event.setCancelled(true);
     }
 
     @EventHandler
     public void onHangingPlace(HangingPlaceEvent event) {
         final Player player = event.getPlayer();
 
-        if (!player.isOp() && !player.hasPermission(MuseumConfig.ADMIN_PERMISSION_NODE)) {
-            event.setCancelled(true);
+        if (Museum.getInstance().canChangeWorld(player)) {
+            return;
         }
+
+        player.sendMessage(ChatMessages.getMessage("world.frozen"));
+        event.setCancelled(true);
     }
 
     @EventHandler
@@ -56,9 +69,12 @@ public class WorldProtectListener implements Listener {
         if (event.getRemover() instanceof Player) {
             final Player player = (Player) event.getRemover();
 
-            if (!player.isOp() && !player.hasPermission(MuseumConfig.ADMIN_PERMISSION_NODE)) {
-                event.setCancelled(true);
+            if (Museum.getInstance().canChangeWorld(player)) {
+                return;
             }
+
+            player.sendMessage(ChatMessages.getMessage("world.frozen"));
+            event.setCancelled(true);
         }
     }
 
@@ -66,12 +82,13 @@ public class WorldProtectListener implements Listener {
     public void onPlayerPlaceIntoFrame(PlayerInteractEntityEvent event) {
         final Player player = event.getPlayer();
 
-        if (player.isOp() || player.hasPermission(MuseumConfig.ADMIN_PERMISSION_NODE)) {
+        if (Museum.getInstance().canChangeWorld(player)) {
             return;
         }
 
         Entity entity = event.getRightClicked();
         if (entity instanceof ItemFrame || entity instanceof ArmorStand) {
+            player.sendMessage(ChatMessages.getMessage("world.frozen"));
             event.setCancelled(true);
         }
     }
@@ -80,10 +97,11 @@ public class WorldProtectListener implements Listener {
     public void onPlayerMessArmorStands(PlayerArmorStandManipulateEvent event) {
         final Player player = event.getPlayer();
 
-        if (player.isOp() || player.hasPermission(MuseumConfig.ADMIN_PERMISSION_NODE)) {
+        if (Museum.getInstance().canChangeWorld(player)) {
             return;
         }
 
+        player.sendMessage(ChatMessages.getMessage("world.frozen"));
         event.setCancelled(true);
     }
 
@@ -116,10 +134,11 @@ public class WorldProtectListener implements Listener {
     public void onPlayerInteractDoors(PlayerInteractEvent event) {
         final Player player = event.getPlayer();
 
-        if (player.isOp() || player.hasPermission(MuseumConfig.ADMIN_PERMISSION_NODE)) {
+        if (Museum.getInstance().canChangeWorld(player)) {
             return;
         }
 
+        player.sendMessage(ChatMessages.getMessage("world.frozen"));
         if (event.getAction() != Action.RIGHT_CLICK_BLOCK || event.getClickedBlock() == null) {
             return;
         }
@@ -223,7 +242,7 @@ public class WorldProtectListener implements Listener {
     public void onDrag(InventoryDragEvent event) {
         final Player player = (Player) event.getWhoClicked();
 
-        if (player.isOp() || player.hasPermission(MuseumConfig.ADMIN_PERMISSION_NODE)) {
+        if (Museum.getInstance().canChangeWorld(player)) {
             return;
         }
 
@@ -238,10 +257,29 @@ public class WorldProtectListener implements Listener {
 
         final Player player = (Player) event.getWhoClicked();
 
-        if (player.isOp() || player.hasPermission(MuseumConfig.ADMIN_PERMISSION_NODE)) {
+        if (Museum.getInstance().canChangeWorld(player)) {
             return;
         }
 
+        player.sendMessage(ChatMessages.getMessage("world.frozen"));
         event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onChunkLoad(ChunkLoadEvent event) {
+        Chunk chunk = event.getChunk();
+        Entity[] entities = chunk.getEntities();
+
+        // Disable all living entities AI and prevent them from being damaged or pushed around.
+        for (Entity entity : entities) {
+            if (!(entity instanceof LivingEntity)) {
+                continue;
+            }
+
+            LivingEntity livingEntity = (LivingEntity) entity;
+            livingEntity.setAI(false);
+            livingEntity.setInvulnerable(true);
+            livingEntity.setCollidable(false);
+        }
     }
 }

@@ -8,8 +8,9 @@ public class MuseumConfig {
     private final Museum plugin;
     private FileConfiguration config;
 
-    private boolean debug = false;
-    private boolean stopLoginMessages = true;
+    private boolean debug;
+    private boolean stopLoginMessages;
+    private boolean worldFrozen;
 
     private volatile boolean chatDisabled;
 
@@ -29,6 +30,7 @@ public class MuseumConfig {
         debug = config.getBoolean("debug", false);
         stopLoginMessages = config.getBoolean("stop-login-messages", true);
         chatDisabled = config.getBoolean("disable-chat", false);
+        worldFrozen = config.getBoolean("world-frozen", true);
     }
 
     public FileConfiguration getRawConfig() {
@@ -53,5 +55,13 @@ public class MuseumConfig {
 
     public boolean isChatDisabled() {
         return chatDisabled;
+    }
+
+    public void setWorldFrozen(boolean worldFrozen) {
+        this.worldFrozen = worldFrozen;
+    }
+
+    public boolean isWorldFrozen() {
+        return worldFrozen;
     }
 }

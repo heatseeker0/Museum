@@ -62,4 +62,16 @@ public class MuseumCommandHandler extends BaseCommand {
             sender.sendMessage(ChatMessages.getMessage("admin.login-msgs-disabled"));
         }
     }
+
+    @Subcommand("worldfrozen")
+    @CommandCompletion("@onoff")
+    public void cmdWorldFrozen(CommandSender sender, @Values("@onoff") String value) {
+        if (value.equals("on")) {
+            plugin.getMuseumConfig().setWorldFrozen(true);
+            sender.sendMessage(ChatMessages.getMessage("world.frozen"));
+        } else {
+            plugin.getMuseumConfig().setWorldFrozen(false);
+            sender.sendMessage(ChatMessages.getMessage("world.unfrozen"));
+        }
+    }
 }
