@@ -1,1 +1,10 @@
 - Add boss bar display for the zone the player is in
+- Add server restart on a timer (ShutdownController)
+- Add scripts to restart the server automatically when it dies.
+- Add scripts to restart Velocity proxy automatically when it dies.
+- Add a very simple fallback server players will be put into when the main server is down.
+- Add a countdown timer to the fallback server for when the server will launch.
+- Setup players on login: invulnerability, fly ability
+- Allow players to open chests, hoppers and other containers but not to pick up items from chests
+- Allow players to open and close doors, trapdoors
+- Figure out a way to guide players along the server, what commands are available, etc. (worst case a written book, best case an interactive tutorial, we can also put most commonly used commands on the side bar)
