@@ -12,6 +12,7 @@ import com.mcspacecraft.museum.warps.Warp;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
+import co.aikar.commands.annotation.CommandCompletion;
 import co.aikar.commands.annotation.Subcommand;
 import co.aikar.commands.annotation.Values;
 
@@ -37,6 +38,7 @@ public class MiscCommandHandler extends BaseCommand {
 
     @Subcommand("warp")
     @CommandAlias("warp")
+    @CommandCompletion("@warps")
     public void cmdWarp(Player player, @Values("@warps") String target) {
         if (!plugin.getWarpManager().hasWarp(target)) {
             player.sendMessage(ChatMessages.getMessage("warp.not-found", "playername", target));
