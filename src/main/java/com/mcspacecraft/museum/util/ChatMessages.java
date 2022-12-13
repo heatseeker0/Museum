@@ -9,8 +9,6 @@ import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.mcspacecraft.museum.Museum;
-
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.Style;
@@ -54,7 +52,7 @@ public class ChatMessages {
         
         // <argument_name, argument_value>
         Map<String, String> replacements = new HashMap<>();
-        for (int i = 0; i < args.length / 2; i += 2) {
+        for (int i = 0; i < args.length; i += 2) {
             replacements.put(args[i], args[i + 1]);
         }
 
@@ -69,7 +67,6 @@ public class ChatMessages {
             String arg = matcher.group(1);
 
             String text = replacements.getOrDefault(arg, arg);
-            Museum.getInstance().logInfoMessage("ChatMessages#getMessage keyword: %s, replacement: %s", arg, text);
             
             output.replace(matcher.start() + offset, matcher.end() + offset, text);
             
