@@ -9,7 +9,7 @@ import com.mcspacecraft.islandworld.entity.SimpleIslandV4;
 import com.mcspacecraft.museum.Museum;
 import com.mcspacecraft.museum.util.SLAPI;
 
-public class IslandWorld {
+public class IslandManager {
     public static int ISLAND_SIZE = 100;
     public static int ISLAND_HEIGHT = 20;
 
@@ -25,7 +25,7 @@ public class IslandWorld {
     private Map<IslandLookupKey, SimpleIslandV4> islandLookupList = new HashMap<>();
 
     @SuppressWarnings("unchecked")
-    public void loadIslandList() {
+    public void load() {
         final File dataFolder = Museum.getInstance().getDataFolder();
 
         if (islandList.isEmpty() && (new File(dataFolder, TAKENISLAND_FILE)).exists()) {
@@ -33,6 +33,8 @@ public class IslandWorld {
                 islandList = (Map<String, SimpleIslandV4>) SLAPI.load(dataFolder + "/" + TAKENISLAND_FILE);
                 islandsLoaded = true;
                 Museum.getInstance().logInfoMessage("Loaded %d islands from disk.", islandList.size());
+
+                buildIslandLookupMap();
             } catch (Exception e) {
                 Museum.getInstance().logErrorMessage("Error loading %s island list.", TAKENISLAND_FILE);
                 e.printStackTrace();
@@ -64,7 +66,7 @@ public class IslandWorld {
     /**
      * Builds the island from coordinates quick lookup map.
      */
-    public void buildIslandLookupMap() {
+    private void buildIslandLookupMap() {
         if (!islandsLoaded || islandList.isEmpty()) {
             return;
         }

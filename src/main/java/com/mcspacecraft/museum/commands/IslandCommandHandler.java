@@ -31,14 +31,14 @@ public class IslandCommandHandler extends BaseCommand {
     @Subcommand("info")
     @CommandCompletion("@owners")
     public void cmdInfo(CommandSender sender, @Values("@owners") String playerName) {
-        if (!plugin.getIslandWorld().ownsIsland(playerName)) {
+        if (!plugin.getIslandManager().ownsIsland(playerName)) {
             sender.sendMessage(ChatMessages.getMessage("island.info.no-island", "playername", playerName));
             return;
         }
 
         SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
-        SimpleIslandV4 island = plugin.getIslandWorld().getOwnedIsland(playerName);
+        SimpleIslandV4 island = plugin.getIslandManager().getOwnedIsland(playerName);
         String createTime = date.format(island.getCreateTime());
         String lastLoginTime = date.format(island.getOwnerLoginTime());
         String members = island.getMembers().isEmpty() ? "none" : StringUtils.join(island.getMembers(), ", ");
@@ -52,7 +52,7 @@ public class IslandCommandHandler extends BaseCommand {
     @Subcommand("tp|visit")
     @CommandCompletion("@owners")
     public void cmdTp(Player player, @Values("@owners") String playerName) {
-        if (!plugin.getIslandWorld().ownsIsland(playerName)) {
+        if (!plugin.getIslandManager().ownsIsland(playerName)) {
             player.sendMessage(ChatMessages.getMessage("island.info.no-island", "playername", playerName));
             return;
         }
@@ -63,7 +63,7 @@ public class IslandCommandHandler extends BaseCommand {
     @Subcommand("home")
     @CommandAlias("home")
     public void cmdHome(Player player) {
-        if (!plugin.getIslandWorld().ownsIsland(player.getName())) {
+        if (!plugin.getIslandManager().ownsIsland(player.getName())) {
             player.sendMessage(ChatMessages.getMessage("island.info.no-island.you"));
             return;
         }
@@ -76,7 +76,7 @@ public class IslandCommandHandler extends BaseCommand {
     }
 
     private void tpToIsland(Player player, String ownerName) {
-        SimpleIslandV4 island = plugin.getIslandWorld().getOwnedIsland(ownerName);
+        SimpleIslandV4 island = plugin.getIslandManager().getOwnedIsland(ownerName);
         if (island == null) {
             return;
         }

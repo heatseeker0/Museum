@@ -9,10 +9,12 @@ import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 
 import com.mcspacecraft.museum.Museum;
 import com.mcspacecraft.museum.util.ChatMessages;
+import com.mcspacecraft.museum.warps.Warp;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.Subcommand;
+import co.aikar.commands.annotation.Values;
 
 @CommandAlias("museum|core|c")
 public class MiscCommandHandler extends BaseCommand {
@@ -39,5 +41,23 @@ public class MiscCommandHandler extends BaseCommand {
     @CommandAlias("rules")
     public void cmdRules(CommandSender sender) {
         sender.sendMessage(ChatMessages.getMessage("rules"));
+    }
+
+    @Subcommand("warp")
+    @CommandAlias("warp")
+    public void cmdWarp(Player player, @Values("@warps") String target) {
+        if (!plugin.getWarpManager().hasWarp(target)) {
+            player.sendMessage(ChatMessages.getMessage("warp.not-found", "playername", target));
+            return;
+        }
+
+        Warp warp = plugin.getWarpManager().getWarp(target);
+        World world = Bukkit.getWorlds().get(0);
+
+        if (player.teleport(warp.getLocation(world), TeleportCause.PLUGIN, false, true)) {
+            player.sendMessage(ChatMessages.getMessage("teleport.ok"));
+        } else {
+            player.sendMessage(ChatMessages.getMessage("teleport.error"));
+        }
     }
 }

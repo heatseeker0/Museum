@@ -8,7 +8,7 @@ import java.util.List;
 import org.bukkit.Location;
 
 import com.mcspacecraft.museum.islands.ImmutableSimpleLocation;
-import com.mcspacecraft.museum.islands.IslandWorld;
+import com.mcspacecraft.museum.islands.IslandManager;
 
 public class SimpleIslandV4 implements Serializable {
     private transient ImmutableSimpleLocation islandCornerA = null;
@@ -139,14 +139,14 @@ public class SimpleIslandV4 implements Serializable {
     public boolean isInsideIsland(Location loc) {
         // Initialize the transient fields when they're first needed.
         if (islandCornerA == null || islandCornerB == null) {
-            final int x1 = isle_x * IslandWorld.ISLAND_SIZE + 1;
-            final int z1 = isle_z * IslandWorld.ISLAND_SIZE + 1;
+            final int x1 = isle_x * IslandManager.ISLAND_SIZE + 1;
+            final int z1 = isle_z * IslandManager.ISLAND_SIZE + 1;
             islandCornerA = new ImmutableSimpleLocation(x1, 0, z1);
 
-            final int x2 = x1 + IslandWorld.ISLAND_SIZE - 2;
-            final int z2 = z1 + IslandWorld.ISLAND_SIZE - 2;
+            final int x2 = x1 + IslandManager.ISLAND_SIZE - 2;
+            final int z2 = z1 + IslandManager.ISLAND_SIZE - 2;
 
-            islandCornerB = new ImmutableSimpleLocation(x2, IslandWorld.MAX_HEIGHT - 1, z2);
+            islandCornerB = new ImmutableSimpleLocation(x2, IslandManager.MAX_HEIGHT - 1, z2);
         }
 
         return (loc.getX() >= islandCornerA.getX() && loc.getX() <= islandCornerB.getX() &&

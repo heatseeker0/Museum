@@ -16,12 +16,13 @@ import com.google.common.collect.ImmutableList;
 import com.mcspacecraft.museum.commands.IslandCommandHandler;
 import com.mcspacecraft.museum.commands.MiscCommandHandler;
 import com.mcspacecraft.museum.commands.MuseumCommandHandler;
-import com.mcspacecraft.museum.islands.IslandWorld;
+import com.mcspacecraft.museum.islands.IslandManager;
 import com.mcspacecraft.museum.listeners.ChatHandlerListener;
 import com.mcspacecraft.museum.listeners.PlayerListener;
 import com.mcspacecraft.museum.listeners.WeatherChangeListener;
 import com.mcspacecraft.museum.listeners.WorldProtectListener;
 import com.mcspacecraft.museum.util.ChatMessages;
+import com.mcspacecraft.museum.warps.WarpManager;
 
 import co.aikar.commands.PaperCommandManager;
 
@@ -37,7 +38,8 @@ public class Museum extends JavaPlugin {
     public static final Logger logger = Logger.getLogger("Museum");
 
     private MuseumConfig config;
-    private IslandWorld islandWorld;
+    private IslandManager islandManager;
+    private WarpManager warpManager;
 
     @Override
     public void onEnable() {
@@ -63,11 +65,15 @@ public class Museum extends JavaPlugin {
             return ImmutableList.of("on", "off");
         });
 
-        islandWorld = new IslandWorld();
-        islandWorld.loadIslandList();
-        islandWorld.buildIslandLookupMap();
+        islandManager = new IslandManager();
+        islandManager.load();
 
-        manager.getCommandCompletions().registerCompletion("owners", c -> islandWorld.getOwnerList());
+        manager.getCommandCompletions().registerCompletion("owners", c -> islandManager.getOwnerList());
+
+        warpManager = new WarpManager();
+        warpManager.load();
+
+        manager.getCommandCompletions().registerCompletion("warps", c -> warpManager.getWarpList());
     }
 
     @Override
@@ -83,8 +89,12 @@ public class Museum extends JavaPlugin {
         return config;
     }
 
-    public IslandWorld getIslandWorld() {
-        return islandWorld;
+    public IslandManager getIslandManager() {
+        return islandManager;
+    }
+
+    public WarpManager getWarpManager() {
+        return warpManager;
     }
 
     public void logDebugMessage(final String msg, final Object... args) {
