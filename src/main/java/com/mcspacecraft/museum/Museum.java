@@ -53,6 +53,7 @@ public class Museum extends JavaPlugin {
 
         PaperCommandManager manager = new PaperCommandManager(this);
         manager.registerCommand(new MuseumCommandHandler(this));
+        manager.registerCommand(new IslandCommandHandler(this));
 
         manager.getCommandCompletions().registerCompletion("onoff", c -> {
             return ImmutableList.of("on", "off");
@@ -61,6 +62,8 @@ public class Museum extends JavaPlugin {
         islandWorld = new IslandWorld();
         islandWorld.loadIslandList();
         islandWorld.buildIslandLookupMap();
+
+        manager.getCommandCompletions().registerCompletion("owners", c -> islandWorld.getOwnerList());
     }
 
     @Override
@@ -76,6 +79,21 @@ public class Museum extends JavaPlugin {
         return config;
     }
 
+    public IslandWorld getIslandWorld() {
+        return islandWorld;
+    }
+
+    public void logDebugMessage(final String msg, final Object... args) {
+        if (!getMuseumConfig().getDebug()) {
+            return;
+        }
+
+        if (args == null || args.length == 0) {
+            logger.fine(msg);
+        } else {
+            logger.fine(String.format(msg, args));
+        }
+    }
 
     public void logInfoMessage(final String msg, final Object... args) {
         if (args == null || args.length == 0) {

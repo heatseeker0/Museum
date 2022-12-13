@@ -1,6 +1,7 @@
 package com.mcspacecraft.museum.islands;
 
 import java.io.File;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,6 +47,18 @@ public class IslandWorld {
      */
     public Map<String, SimpleIslandV4> getIslandList() {
         return islandList;
+    }
+
+    public Collection<String> getOwnerList() {
+        return islandList.keySet();
+    }
+
+    public boolean ownsIsland(String playerName) {
+        return islandList.containsKey(playerName);
+    }
+
+    public SimpleIslandV4 getOwnedIsland(String playerName) {
+        return islandList.get(playerName);
     }
 
     /**
