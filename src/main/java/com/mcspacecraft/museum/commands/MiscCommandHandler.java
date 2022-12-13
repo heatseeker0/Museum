@@ -58,4 +58,10 @@ public class MiscCommandHandler extends BaseCommand {
             player.sendMessage(ChatMessages.getMessage("teleport.error"));
         }
     }
+
+    @Subcommand("econ|bal|balance")
+    @CommandAlias("econ|bal|balance")
+    public void cmdEcon(CommandSender sender) {
+        sender.sendMessage(ChatMessages.getMessage("econ"));
+    }
 }
