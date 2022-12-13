@@ -1,4 +1,4 @@
-package com.mcspacecraft.museum;
+package com.mcspacecraft.museum.util;
 
 import java.io.IOException;
 import java.io.InputStream;

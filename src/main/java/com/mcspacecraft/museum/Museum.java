@@ -3,6 +3,7 @@ package com.mcspacecraft.museum;
 import java.util.logging.Logger;
 
 import org.bukkit.plugin.PluginLoadOrder;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.java.annotation.plugin.ApiVersion;
 import org.bukkit.plugin.java.annotation.plugin.ApiVersion.Target;
@@ -10,6 +11,12 @@ import org.bukkit.plugin.java.annotation.plugin.Description;
 import org.bukkit.plugin.java.annotation.plugin.LoadOrder;
 import org.bukkit.plugin.java.annotation.plugin.Plugin;
 import org.bukkit.plugin.java.annotation.plugin.author.Author;
+
+import com.mcspacecraft.museum.listeners.ChatHandlerListener;
+import com.mcspacecraft.museum.listeners.PlayerListener;
+import com.mcspacecraft.museum.listeners.WeatherChangeListener;
+import com.mcspacecraft.museum.listeners.WorldProtectListener;
+import com.mcspacecraft.museum.util.ChatMessages;
 
 import co.aikar.commands.PaperCommandManager;
 
@@ -35,6 +42,12 @@ public class Museum extends JavaPlugin {
         config = new MuseumConfig(this);
         config.load();
 
+        final PluginManager pluginManager = getServer().getPluginManager();
+        pluginManager.registerEvents(new WorldProtectListener(), this);
+        pluginManager.registerEvents(new PlayerListener(), this);
+        pluginManager.registerEvents(new WeatherChangeListener(), this);
+        pluginManager.registerEvents(new ChatHandlerListener(), this);
+
         PaperCommandManager manager = new PaperCommandManager(this);
         manager.registerCommand(new MuseumCommandHandler(this));
     }
@@ -44,7 +57,7 @@ public class Museum extends JavaPlugin {
         // Empty for now
     }
 
-    public static Museum getPlugin() {
+    public static Museum getInstance() {
         return plugin;
     }
 
