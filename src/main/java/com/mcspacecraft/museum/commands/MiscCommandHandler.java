@@ -1,7 +1,6 @@
 package com.mcspacecraft.museum.commands;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -27,14 +26,7 @@ public class MiscCommandHandler extends BaseCommand {
     @Subcommand("spawn")
     @CommandAlias("spawn")
     public void cmdHome(Player player) {
-        World world = Bukkit.getWorlds().get(0);
-
-        Location spawnLoc = world.getSpawnLocation();
-        if (player.teleport(spawnLoc, TeleportCause.PLUGIN, false, true)) {
-            player.sendMessage(ChatMessages.getMessage("teleport.ok"));
-        } else {
-            player.sendMessage(ChatMessages.getMessage("teleport.error"));
-        }
+        tpToWarp(player, "spawn");
     }
 
     @Subcommand("rules")
@@ -51,6 +43,10 @@ public class MiscCommandHandler extends BaseCommand {
             return;
         }
 
+        tpToWarp(player, target);
+    }
+
+    private void tpToWarp(Player player, String target) {
         Warp warp = plugin.getWarpManager().getWarp(target);
         World world = Bukkit.getWorlds().get(0);
 
