@@ -3,6 +3,7 @@ package com.mcspacecraft.museum.commands;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 
@@ -32,5 +33,11 @@ public class MiscCommandHandler extends BaseCommand {
         } else {
             player.sendMessage(ChatMessages.getMessage("teleport.error"));
         }
+    }
+
+    @Subcommand("rules")
+    @CommandAlias("rules")
+    public void cmdRules(CommandSender sender) {
+        sender.sendMessage(ChatMessages.getMessage("rules"));
     }
 }
