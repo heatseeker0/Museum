@@ -13,6 +13,9 @@ import org.bukkit.plugin.java.annotation.plugin.Plugin;
 import org.bukkit.plugin.java.annotation.plugin.author.Author;
 
 import com.google.common.collect.ImmutableList;
+import com.mcspacecraft.museum.commands.IslandCommandHandler;
+import com.mcspacecraft.museum.commands.MiscCommandHandler;
+import com.mcspacecraft.museum.commands.MuseumCommandHandler;
 import com.mcspacecraft.museum.islands.IslandWorld;
 import com.mcspacecraft.museum.listeners.ChatHandlerListener;
 import com.mcspacecraft.museum.listeners.PlayerListener;
@@ -54,6 +57,7 @@ public class Museum extends JavaPlugin {
         PaperCommandManager manager = new PaperCommandManager(this);
         manager.registerCommand(new MuseumCommandHandler(this));
         manager.registerCommand(new IslandCommandHandler(this));
+        manager.registerCommand(new MiscCommandHandler(this));
 
         manager.getCommandCompletions().registerCompletion("onoff", c -> {
             return ImmutableList.of("on", "off");

@@ -1,7 +1,9 @@
-package com.mcspacecraft.museum;
+package com.mcspacecraft.museum.commands;
 
 import org.bukkit.command.CommandSender;
 
+import com.mcspacecraft.museum.Museum;
+import com.mcspacecraft.museum.MuseumConfig;
 import com.mcspacecraft.museum.util.ChatMessages;
 
 import co.aikar.commands.BaseCommand;

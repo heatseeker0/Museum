@@ -1,4 +1,4 @@
-package com.mcspacecraft.museum;
+package com.mcspacecraft.museum.commands;
 
 import java.text.SimpleDateFormat;
 
@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 
 import com.mcspacecraft.islandworld.entity.SimpleIslandV4;
+import com.mcspacecraft.museum.Museum;
 import com.mcspacecraft.museum.util.ChatMessages;
 
 import co.aikar.commands.BaseCommand;
@@ -56,14 +57,36 @@ public class IslandCommandHandler extends BaseCommand {
             return;
         }
 
-        SimpleIslandV4 island = plugin.getIslandWorld().getOwnedIsland(playerName);
+        tpToIsland(player, playerName);
+    }
+
+    @Subcommand("home")
+    @CommandAlias("home")
+    public void cmdHome(Player player) {
+        if (!plugin.getIslandWorld().ownsIsland(player.getName())) {
+            player.sendMessage(ChatMessages.getMessage("island.info.no-island.you"));
+            return;
+        }
+
+        tpToIsland(player);
+    }
+
+    private void tpToIsland(Player player) {
+        tpToIsland(player, player.getName());
+    }
+
+    private void tpToIsland(Player player, String ownerName) {
+        SimpleIslandV4 island = plugin.getIslandWorld().getOwnedIsland(ownerName);
+        if (island == null) {
+            return;
+        }
 
         World world = Bukkit.getWorlds().get(0);
         Location spawnLoc = new Location(world, island.spawn_x, island.spawn_y, island.spawn_z, island.spawn_yaw, island.spawn_pitch);
         if (player.teleport(spawnLoc, TeleportCause.PLUGIN, false, true)) {
-            player.sendMessage(ChatMessages.getMessage("island.teleport.ok"));
+            player.sendMessage(ChatMessages.getMessage("teleport.ok"));
         } else {
-            player.sendMessage(ChatMessages.getMessage("island.teleport.error"));
+            player.sendMessage(ChatMessages.getMessage("teleport.error"));
         }
     }
 }
