@@ -138,12 +138,12 @@ public class WorldProtectListener implements Listener {
             return;
         }
 
-        player.sendMessage(ChatMessages.getMessage("world.frozen"));
         if (event.getAction() != Action.RIGHT_CLICK_BLOCK || event.getClickedBlock() == null) {
             return;
         }
 
         if (event.getClickedBlock().getType().isInteractable()) {
+            player.sendMessage(ChatMessages.getMessage("world.frozen"));
             event.setCancelled(true);
             return;
         }
@@ -280,6 +280,8 @@ public class WorldProtectListener implements Listener {
             livingEntity.setAI(false);
             livingEntity.setInvulnerable(true);
             livingEntity.setCollidable(false);
+            livingEntity.setPersistent(true);
+            livingEntity.setRemoveWhenFarAway(false);
         }
     }
 }
