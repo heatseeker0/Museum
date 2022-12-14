@@ -1,3 +1,7 @@
+BUGFIXES:
+- Player falling down to void is stuck in place after teleport to spawn and unable to move.
+
+TODO:
 - Add boss bar display for the zone the player is in
 - Add server restart on a timer (ShutdownController)
 - Add scripts to restart the server automatically when it dies.
@@ -8,3 +12,16 @@
 - Allow players to open chests, hoppers and other containers but not to pick up items from chests
 - Allow players to open and close doors, trapdoors
 - Figure out a way to guide players along the server, what commands are available, etc. (worst case a written book, best case an interactive tutorial, we can also put most commonly used commands on the side bar)
+- tpa tpahere, tpo tpohere
+- Chat formatting?
+- /w, /r
+- gc
+- list
+- speed
+- mute, unmute
+- Add TimeIsMoney
+- Add mockup Shopkeepers
+
+
+DONE:
+- Install ViaVersion, ViaRewind

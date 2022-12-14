@@ -51,6 +51,8 @@ public class Museum extends JavaPlugin {
         config = new MuseumConfig(this);
         config.load();
 
+        VanillaCommandsRemover.unregisterCommands();
+
         final PluginManager pluginManager = getServer().getPluginManager();
         pluginManager.registerEvents(new WorldProtectListener(), this);
         pluginManager.registerEvents(new PlayerListener(), this);
