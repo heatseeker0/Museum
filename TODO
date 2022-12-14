@@ -1,5 +1,4 @@
 BUGFIXES:
-- Player falling down to void is stuck in place after teleport to spawn and unable to move.
 
 TODO:
 - Add boss bar display for the zone the player is in
@@ -25,3 +24,4 @@ TODO:
 
 DONE:
 - Install ViaVersion, ViaRewind
+- Player falling down to void is stuck in place after teleport to spawn and unable to move.

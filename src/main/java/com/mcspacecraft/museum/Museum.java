@@ -2,6 +2,7 @@ package com.mcspacecraft.museum;
 
 import java.util.logging.Logger;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginLoadOrder;
 import org.bukkit.plugin.PluginManager;
@@ -46,37 +47,40 @@ public class Museum extends JavaPlugin {
     public void onEnable() {
         plugin = this;
 
+        // Initialize plugin messages via messages.properties
         ChatMessages.loadPluginMessages(getClassLoader());
 
         config = new MuseumConfig(this);
         config.load();
 
-        VanillaCommandsRemover.unregisterCommands();
+        Bukkit.getScheduler().runTaskLater(this, () -> {
+            VanillaCommandsRemover.unregisterCommands();
 
-        final PluginManager pluginManager = getServer().getPluginManager();
-        pluginManager.registerEvents(new WorldProtectListener(), this);
-        pluginManager.registerEvents(new PlayerListener(), this);
-        pluginManager.registerEvents(new WeatherChangeListener(), this);
-        pluginManager.registerEvents(new ChatHandlerListener(), this);
+            final PluginManager pluginManager = getServer().getPluginManager();
+            pluginManager.registerEvents(new WorldProtectListener(), this);
+            pluginManager.registerEvents(new PlayerListener(), this);
+            pluginManager.registerEvents(new WeatherChangeListener(), this);
+            pluginManager.registerEvents(new ChatHandlerListener(), this);
 
-        PaperCommandManager manager = new PaperCommandManager(this);
-        manager.registerCommand(new MuseumCommandHandler(this));
-        manager.registerCommand(new IslandCommandHandler(this));
-        manager.registerCommand(new MiscCommandHandler(this));
+            PaperCommandManager manager = new PaperCommandManager(this);
+            manager.registerCommand(new MuseumCommandHandler(this));
+            manager.registerCommand(new IslandCommandHandler(this));
+            manager.registerCommand(new MiscCommandHandler(this));
 
-        manager.getCommandCompletions().registerCompletion("onoff", c -> {
-            return ImmutableList.of("on", "off");
-        });
+            manager.getCommandCompletions().registerCompletion("onoff", c -> {
+                return ImmutableList.of("on", "off");
+            });
 
-        islandManager = new IslandManager();
-        islandManager.load();
+            islandManager = new IslandManager();
+            islandManager.load();
 
-        manager.getCommandCompletions().registerCompletion("owners", c -> islandManager.getOwnerList());
+            manager.getCommandCompletions().registerCompletion("owners", c -> islandManager.getOwnerList());
 
-        warpManager = new WarpManager();
-        warpManager.load();
+            warpManager = new WarpManager();
+            warpManager.load();
 
-        manager.getCommandCompletions().registerCompletion("warps", c -> warpManager.getWarpList());
+            manager.getCommandCompletions().registerCompletion("warps", c -> warpManager.getWarpList());
+        }, 20);
     }
 
     @Override

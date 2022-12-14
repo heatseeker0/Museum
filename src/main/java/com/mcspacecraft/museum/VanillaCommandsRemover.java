@@ -1,66 +1,76 @@
 package com.mcspacecraft.museum;
 
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
+import org.apache.logging.log4j.util.Strings;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandMap;
+import org.bukkit.command.SimpleCommandMap;
+
+import com.google.common.collect.ImmutableSet;
 
 public class VanillaCommandsRemover {
+    private static Set<String> KEEP_KEY_COMMANDS = ImmutableSet.of("stop", "ban", "ban-ip", "banlist", "whitelist", "save-all", "gamerule", "kick", "tps", "save-off", "save-on",
+        // To remove when I've implemented own version
+        "op", "kill", "weather", "gamemode", "list");
+
     /**
      * Removes unwanted Minecraft or Bukkit vanilla commands.
      */
     public static void unregisterCommands() {
-        // Get rid of unwanted commands
-        unregisterCommand(
-            "bukkit", true, "reload", "about", "rl", "plugins", "pl", "version", "ver", "timings"
-        );
-
-        // These ones need delay.
-        Bukkit.getScheduler().runTaskLater(Museum.getInstance(), new Runnable() {
-            @Override
-            public void run() {
-                unregisterCommand("bukkit", false, "help", "?");
-
-                unregisterCommand("minecraft", false, "me", "help", "tell", "msg", "w", "kick", "ban", "ban-ip");
-                unregisterCommand("minecraft", true, "say", "banlist", "trigger");
-            }
-        }, 20);
-    }
-
-    /**
-     * Unregister the command.
-     *
-     * @param owner Owner, i.e bukkit, minecraft etc.
-     * @param aliases Associated aliases.
-     */
-    private static void unregisterCommand(String owner, boolean root, String... aliases) {
         CommandMap commandMap = Bukkit.getCommandMap();
 
-        for (String alias : aliases) {
-            if (root) {
-                unregisterCommandRoot(owner, aliases);
-            }
+        Map<String, Command> knownCommands = commandMap.getKnownCommands();
 
-            Command remove = commandMap.getKnownCommands().remove(owner + ":" + alias);
-            if (remove != null) {
-                Museum.getInstance().logDebugMessage("Unregistering command '%s:%s'", owner, alias);
-                remove.unregister(commandMap);
-            } else {
-                Museum.getInstance().logErrorMessage("Could not unregister command '%s:%s'", owner, alias);
+        Museum.getInstance().logInfoMessage("========== Known commands before ============");
+        printKnownCommands(knownCommands);
+
+        realClearCommands();
+
+        Museum.getInstance().logInfoMessage("========== Known commands after ============");
+        printKnownCommands(commandMap.getKnownCommands());
+    }
+
+    private static void realClearCommands() {
+        Field field;
+        try {
+            CommandMap commandMap = Bukkit.getCommandMap();
+
+            field = SimpleCommandMap.class.getDeclaredField("knownCommands");
+            field.setAccessible(true);
+            @SuppressWarnings("unchecked")
+            Map<String, Command> knownCommands = (Map<String, Command>) field.get(commandMap);
+
+            List<Command> cmdsToKeep = new ArrayList<>();
+
+            for (Map.Entry<String, Command> entry : knownCommands.entrySet()) {
+                if (KEEP_KEY_COMMANDS.contains(entry.getKey())) {
+                    cmdsToKeep.add(entry.getValue());
+                }
+                entry.getValue().unregister(commandMap);
             }
+            knownCommands.clear();
+
+            for (Command cmd : cmdsToKeep) {
+                knownCommands.put(cmd.getName(), cmd);
+                cmd.register(commandMap);
+            }
+        } catch (SecurityException | IllegalArgumentException | NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace();
         }
     }
 
-    private static void unregisterCommandRoot(String owner, String... aliases) {
-        CommandMap commandMap = Bukkit.getCommandMap();
+    private static void printKnownCommands(Map<String, Command> cmdList) {
+        Museum plugin = Museum.getInstance();
 
-        for (String alias : aliases) {
-            Command rootRemove = commandMap.getKnownCommands().remove(alias);
-            if (rootRemove != null) {
-                Museum.getInstance().logDebugMessage("Unregistering root command %s (%s)", alias, owner);
-                rootRemove.unregister(commandMap);
-            } else {
-                Museum.getInstance().logErrorMessage("Could not unregister root command %s (%s)'", alias, owner);
-            }
+        for (Entry<String, Command> cmd : cmdList.entrySet()) {
+            plugin.logInfoMessage("key - %s -- [name: %s, label: %s, aliases: %s]", cmd.getKey(), cmd.getValue().getName(), cmd.getValue().getLabel(), Strings.join(cmd.getValue().getAliases(), ','));
         }
     }
 }

@@ -1,5 +1,7 @@
 package com.mcspacecraft.museum.listeners;
 
+import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -14,9 +16,11 @@ import org.bukkit.event.player.PlayerBedEnterEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 
 import com.mcspacecraft.museum.Museum;
 import com.mcspacecraft.museum.util.ChatMessages;
+import com.mcspacecraft.museum.warps.Warp;
 
 public class PlayerListener implements Listener {
     @EventHandler
@@ -115,10 +119,15 @@ public class PlayerListener implements Listener {
         if (event.getCause() == DamageCause.VOID) {
             final Player player = (Player) event.getEntity();
 
-            if (player.getLocation().getWorld().getSpawnLocation() != null) {
-                player.teleport(player.getLocation().getWorld().getSpawnLocation());
+            Warp warp = Museum.getInstance().getWarpManager().getWarp("spawn");
+            World world = Bukkit.getWorlds().get(0);
+
+            if (player.teleport(warp.getLocation(world), TeleportCause.PLUGIN, false, true)) {
                 event.setDamage(0.0D);
                 event.setCancelled(true);
+
+                // Teleport them again 1 tick later to work around a bug being stuck in place
+                Bukkit.getScheduler().runTask(Museum.getInstance(), () -> player.teleport(warp.getLocation(world), TeleportCause.PLUGIN, false, true));
             }
 
             // Don't cancel void damage if we can't teleport them
