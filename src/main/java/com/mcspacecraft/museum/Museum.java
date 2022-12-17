@@ -23,6 +23,8 @@ import com.mcspacecraft.museum.listeners.ChatHandlerListener;
 import com.mcspacecraft.museum.listeners.PlayerListener;
 import com.mcspacecraft.museum.listeners.WeatherChangeListener;
 import com.mcspacecraft.museum.listeners.WorldProtectListener;
+import com.mcspacecraft.museum.timeismoney.ATM;
+import com.mcspacecraft.museum.timeismoney.PlayTimeManager;
 import com.mcspacecraft.museum.util.ChatMessages;
 import com.mcspacecraft.museum.warps.WarpManager;
 
@@ -42,6 +44,7 @@ public class Museum extends JavaPlugin {
     private MuseumConfig config;
     private IslandManager islandManager;
     private WarpManager warpManager;
+    private PlayTimeManager playTimeManager;
 
     @Override
     public void onEnable() {
@@ -80,6 +83,13 @@ public class Museum extends JavaPlugin {
             warpManager.load();
 
             manager.getCommandCompletions().registerCompletion("warps", c -> warpManager.getWarpList());
+
+            playTimeManager = new PlayTimeManager();
+            playTimeManager.load();
+
+            manager.getCommandCompletions().registerCompletion("playtime", c -> playTimeManager.getPlayers());
+
+            pluginManager.registerEvents(new ATM(), this);
         }, 20);
     }
 
@@ -102,6 +112,10 @@ public class Museum extends JavaPlugin {
 
     public WarpManager getWarpManager() {
         return warpManager;
+    }
+
+    public PlayTimeManager getPlayTimeManager() {
+        return playTimeManager;
     }
 
     public boolean canChangeWorld(Player player) {

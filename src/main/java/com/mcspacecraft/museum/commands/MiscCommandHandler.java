@@ -7,12 +7,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 
 import com.mcspacecraft.museum.Museum;
+import com.mcspacecraft.museum.timeismoney.PlayTimeManager;
 import com.mcspacecraft.museum.util.ChatMessages;
 import com.mcspacecraft.museum.warps.Warp;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.CommandCompletion;
+import co.aikar.commands.annotation.Optional;
 import co.aikar.commands.annotation.Subcommand;
 import co.aikar.commands.annotation.Values;
 
@@ -63,5 +65,27 @@ public class MiscCommandHandler extends BaseCommand {
     @CommandAlias("econ|bal|balance")
     public void cmdEcon(CommandSender sender) {
         sender.sendMessage(ChatMessages.getMessage("econ"));
+    }
+
+    @Subcommand("played")
+    @CommandCompletion("@playtime")
+    public void cmdPlayed(Player player, @Optional @Values("@playtime") String target) {
+        String targetName = target == null ? player.getName() : target;
+
+        if (!plugin.getPlayTimeManager().hasPlayTime(targetName)) {
+            if (target == null) {
+                player.sendMessage(ChatMessages.getMessage("playtime.norecord.self"));
+            } else {
+                player.sendMessage(ChatMessages.getMessage("playtime.norecord.other", "player", targetName));
+            }
+            return;
+        }
+
+        String playTime = PlayTimeManager.timestampToString(plugin.getPlayTimeManager().getPlayTime(targetName));
+        if (target == null) {
+            player.sendMessage(ChatMessages.getMessage("playtime.self", "played", playTime));
+        } else {
+            player.sendMessage(ChatMessages.getMessage("playtime.other", "played", playTime));
+        }
     }
 }
