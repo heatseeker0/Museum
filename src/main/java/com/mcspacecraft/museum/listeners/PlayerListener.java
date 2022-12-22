@@ -73,7 +73,7 @@ public class PlayerListener implements Listener {
     public void onPlayerDropItem(PlayerDropItemEvent event) {
         final Player player = event.getPlayer();
 
-        if (Museum.getInstance().canChangeWorld(player)) {
+        if (Museum.getInstance().canEditWorld(player)) {
             return;
         }
 
@@ -90,7 +90,7 @@ public class PlayerListener implements Listener {
         }
 
         Player player = (Player) event.getEntity();
-        if (Museum.getInstance().canChangeWorld(player)) {
+        if (Museum.getInstance().canEditWorld(player)) {
             return;
         }
 
@@ -160,7 +160,7 @@ public class PlayerListener implements Listener {
     public void onPlayerBedEnter(PlayerBedEnterEvent event) {
         final Player player = event.getPlayer();
 
-        if (Museum.getInstance().canChangeWorld(player)) {
+        if (Museum.getInstance().canEditWorld(player)) {
             return;
         }
         

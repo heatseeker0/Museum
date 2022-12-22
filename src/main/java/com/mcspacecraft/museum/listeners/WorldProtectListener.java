@@ -32,7 +32,7 @@ public class WorldProtectListener implements Listener {
     public void onBlockBreak(BlockBreakEvent event) {
         final Player player = event.getPlayer();
 
-        if (Museum.getInstance().canChangeWorld(player)) {
+        if (Museum.getInstance().canEditWorld(player)) {
             return;
         }
 
@@ -44,7 +44,7 @@ public class WorldProtectListener implements Listener {
     public void onBlockPlace(BlockPlaceEvent event) {
         final Player player = event.getPlayer();
 
-        if (Museum.getInstance().canChangeWorld(player)) {
+        if (Museum.getInstance().canEditWorld(player)) {
             return;
         }
 
@@ -56,7 +56,7 @@ public class WorldProtectListener implements Listener {
     public void onHangingPlace(HangingPlaceEvent event) {
         final Player player = event.getPlayer();
 
-        if (Museum.getInstance().canChangeWorld(player)) {
+        if (Museum.getInstance().canEditWorld(player)) {
             return;
         }
 
@@ -69,7 +69,7 @@ public class WorldProtectListener implements Listener {
         if (event.getRemover() instanceof Player) {
             final Player player = (Player) event.getRemover();
 
-            if (Museum.getInstance().canChangeWorld(player)) {
+            if (Museum.getInstance().canEditWorld(player)) {
                 return;
             }
 
@@ -82,7 +82,7 @@ public class WorldProtectListener implements Listener {
     public void onPlayerPlaceIntoFrame(PlayerInteractEntityEvent event) {
         final Player player = event.getPlayer();
 
-        if (Museum.getInstance().canChangeWorld(player)) {
+        if (Museum.getInstance().canEditWorld(player)) {
             return;
         }
 
@@ -97,7 +97,7 @@ public class WorldProtectListener implements Listener {
     public void onPlayerMessArmorStands(PlayerArmorStandManipulateEvent event) {
         final Player player = event.getPlayer();
 
-        if (Museum.getInstance().canChangeWorld(player)) {
+        if (Museum.getInstance().canEditWorld(player)) {
             return;
         }
 
@@ -134,7 +134,7 @@ public class WorldProtectListener implements Listener {
     public void onPlayerInteractDoors(PlayerInteractEvent event) {
         final Player player = event.getPlayer();
 
-        if (Museum.getInstance().canChangeWorld(player)) {
+        if (Museum.getInstance().canEditWorld(player)) {
             return;
         }
 
@@ -142,14 +142,8 @@ public class WorldProtectListener implements Listener {
             return;
         }
 
-        if (event.getClickedBlock().getType().isInteractable()) {
-            player.sendMessage(ChatMessages.getMessage("world.frozen"));
-            event.setCancelled(true);
-            return;
-        }
-
         switch (event.getClickedBlock().getType()) {
-            // wood door & trapdoor types
+            // Allow wood door & trapdoor types
             case ACACIA_DOOR:
             case BIRCH_DOOR:
             case CRIMSON_DOOR:
@@ -193,48 +187,21 @@ public class WorldProtectListener implements Listener {
             case CRAFTING_TABLE:
             case SMITHING_TABLE:
 
-                // remove items from item frames
-            case ITEM_FRAME:
+            case FURNACE:
+            case DROPPER:
+            case HOPPER:
+            case DISPENSER:
 
-                // flower pot types
-            case FLOWER_POT:
-            case POTTED_ACACIA_SAPLING:
-            case POTTED_ALLIUM:
-            case POTTED_AZALEA_BUSH:
-            case POTTED_AZURE_BLUET:
-            case POTTED_BAMBOO:
-            case POTTED_BIRCH_SAPLING:
-            case POTTED_BLUE_ORCHID:
-            case POTTED_BROWN_MUSHROOM:
-            case POTTED_CACTUS:
-            case POTTED_CORNFLOWER:
-            case POTTED_CRIMSON_FUNGUS:
-            case POTTED_CRIMSON_ROOTS:
-            case POTTED_DANDELION:
-            case POTTED_DARK_OAK_SAPLING:
-            case POTTED_DEAD_BUSH:
-            case POTTED_FERN:
-            case POTTED_FLOWERING_AZALEA_BUSH:
-            case POTTED_JUNGLE_SAPLING:
-            case POTTED_LILY_OF_THE_VALLEY:
-            case POTTED_OAK_SAPLING:
-            case POTTED_ORANGE_TULIP:
-            case POTTED_OXEYE_DAISY:
-            case POTTED_PINK_TULIP:
-            case POTTED_POPPY:
-            case POTTED_RED_MUSHROOM:
-            case POTTED_RED_TULIP:
-            case POTTED_SPRUCE_SAPLING:
-            case POTTED_WARPED_FUNGUS:
-            case POTTED_WARPED_ROOTS:
-            case POTTED_WHITE_TULIP:
-            case POTTED_WITHER_ROSE:
-
-            case BEACON:
-                event.setCancelled(true);
+            case AIR:
                 return;
             default:
                 // nothingness
+        }
+
+        if (event.getClickedBlock().getType().isInteractable()) {
+            // player.sendMessage(ChatMessages.getMessage("world.frozen"));
+            event.setCancelled(true);
+            return;
         }
     }
 
@@ -242,10 +209,11 @@ public class WorldProtectListener implements Listener {
     public void onDrag(InventoryDragEvent event) {
         final Player player = (Player) event.getWhoClicked();
 
-        if (Museum.getInstance().canChangeWorld(player)) {
+        if (Museum.getInstance().canEditWorld(player)) {
             return;
         }
 
+        player.sendMessage(ChatMessages.getMessage("world.frozen"));
         event.setCancelled(true);
     }
 
@@ -257,7 +225,7 @@ public class WorldProtectListener implements Listener {
 
         final Player player = (Player) event.getWhoClicked();
 
-        if (Museum.getInstance().canChangeWorld(player)) {
+        if (Museum.getInstance().canEditWorld(player)) {
             return;
         }
 

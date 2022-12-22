@@ -105,7 +105,7 @@ public class Museum extends JavaPlugin {
         return playTimeManager;
     }
 
-    public boolean canChangeWorld(Player player) {
+    public boolean canEditWorld(Player player) {
         return (player.isOp() || player.hasPermission(MuseumConfig.ADMIN_PERMISSION_NODE)) && !config.isWorldFrozen();
     }
 
