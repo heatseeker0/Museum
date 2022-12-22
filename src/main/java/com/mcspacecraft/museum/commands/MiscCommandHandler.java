@@ -14,6 +14,7 @@ import com.mcspacecraft.museum.warps.Warp;
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.CommandCompletion;
+import co.aikar.commands.annotation.Optional;
 import co.aikar.commands.annotation.Values;
 
 public class MiscCommandHandler extends BaseCommand {
@@ -62,7 +63,7 @@ public class MiscCommandHandler extends BaseCommand {
 
     @CommandAlias("played|playtime")
     @CommandCompletion("@playertime")
-    public void cmdPlayed(CommandSender sender, @Values("@playertime") String target) {
+    public void cmdPlayed(CommandSender sender, @Optional @Values("@playertime") String target) {
         String targetName = target == null ? sender.getName() : target;
 
         if (!plugin.getPlayTimeManager().hasPlayTime(targetName)) {
