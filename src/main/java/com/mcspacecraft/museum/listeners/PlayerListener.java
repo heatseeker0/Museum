@@ -1,7 +1,9 @@
 package com.mcspacecraft.museum.listeners;
 
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.World;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -29,7 +31,18 @@ public class PlayerListener implements Listener {
             event.joinMessage(null);
         }
 
-        // plugin.playerSetup(event.getPlayer());
+        final Player player = event.getPlayer();
+
+        player.setAllowFlight(true);
+        player.setGameMode(GameMode.SURVIVAL);
+        player.setHealth(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
+
+        if (!player.isOp()) {
+            player.getInventory().clear();
+        }
+
+        player.teleport(Museum.getInstance().getWarpManager().getWarp("spawn").getLocation(Bukkit.getWorlds().get(0)), false, true);
+        player.sendMessage(ChatMessages.getMessage("welcome"));
     }
 
     @EventHandler
@@ -154,47 +167,4 @@ public class PlayerListener implements Listener {
         player.sendMessage(ChatMessages.getMessage("world.frozen"));
         event.setCancelled(true);
     }
-
-    // @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
-    // public void onPlayerInventoryClick(InventoryClickEvent event) {
-    // final Player player = (Player) event.getWhoClicked();
-    // final ItemStack clickedItem = event.getCurrentItem();
-    //
-    // if (clickedItem == null || player == null) {
-    // return;
-    // }
-    //
-    // if (clickedItem.getType() == Material.COMPASS) {
-    // player.closeInventory();
-    // event.setCancelled(true);
-    // Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
-    // @Override
-    // public void run() {
-    // plugin.promptPlayer(player.getName());
-    // }
-    // }, 3L);
-    // }
-    // }
-    //
-    // @EventHandler
-    // public void onPlayerInteractEvent(PlayerInteractEvent event) {
-    // final Player player = event.getPlayer();
-    // final ItemStack clickedItem = event.getItem();
-    //
-    // if (clickedItem == null) {
-    // return;
-    // }
-    //
-    // if (clickedItem.getType() == Material.COMPASS) {
-    // player.closeInventory();
-    // event.setCancelled(true);
-    // Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
-    // @Override
-    // public void run() {
-    // plugin.promptPlayer(player.getName());
-    // }
-    // }, 3L);
-    // player.updateInventory();
-    // }
-    // }
 }
