@@ -4,15 +4,8 @@ import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.PluginLoadOrder;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.plugin.java.annotation.plugin.ApiVersion;
-import org.bukkit.plugin.java.annotation.plugin.ApiVersion.Target;
-import org.bukkit.plugin.java.annotation.plugin.Description;
-import org.bukkit.plugin.java.annotation.plugin.LoadOrder;
-import org.bukkit.plugin.java.annotation.plugin.Plugin;
-import org.bukkit.plugin.java.annotation.plugin.author.Author;
 
 import com.google.common.collect.ImmutableList;
 import com.mcspacecraft.museum.commands.IslandCommandHandler;
@@ -30,13 +23,6 @@ import com.mcspacecraft.museum.warps.WarpManager;
 
 import co.aikar.commands.PaperCommandManager;
 
-// For more details on plugin annotations see https://www.spigotmc.org/wiki/spigot-plugin-yml-annotations/
-
-@Plugin(name = "Museum", version = "1.0")
-@Description("MCSpaceCraft Museum Core Functionality")
-@LoadOrder(PluginLoadOrder.POSTWORLD)
-@Author("Catalin Ionescu")
-@ApiVersion(Target.v1_19)
 public class Museum extends JavaPlugin {
     private static Museum plugin;
     public static final Logger logger = Logger.getLogger("Museum");
@@ -66,6 +52,7 @@ public class Museum extends JavaPlugin {
             pluginManager.registerEvents(new ChatHandlerListener(), this);
 
             PaperCommandManager manager = new PaperCommandManager(this);
+
             manager.registerCommand(new MuseumCommandHandler(this));
             manager.registerCommand(new IslandCommandHandler(this));
             manager.registerCommand(new MiscCommandHandler(this));
@@ -87,7 +74,7 @@ public class Museum extends JavaPlugin {
             playTimeManager = new PlayTimeManager();
             playTimeManager.load();
 
-            manager.getCommandCompletions().registerCompletion("playtime", c -> playTimeManager.getPlayers());
+            manager.getCommandCompletions().registerCompletion("playertime", c -> playTimeManager.getPlayers());
 
             pluginManager.registerEvents(new ATM(), this);
         }, 20);

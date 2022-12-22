@@ -18,7 +18,11 @@ import com.google.common.collect.ImmutableSet;
 public class VanillaCommandsRemover {
     private static Set<String> KEEP_KEY_COMMANDS = ImmutableSet.of("stop", "ban", "ban-ip", "banlist", "whitelist", "save-all", "gamerule", "kick", "tps", "save-off", "save-on",
         // To remove when I've implemented own version
-        "op", "kill", "weather", "gamemode", "list");
+        "op", "kill", "weather", "gamemode", "list",
+        // Our own commands
+        "island", "is", "i",
+        "museum", "core", "c",
+        "spawn", "rules", "warp", "econ", "bal", "balance", "played", "playtime");
 
     /**
      * Removes unwanted Minecraft or Bukkit vanilla commands.

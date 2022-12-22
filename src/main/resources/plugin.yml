@@ -1,0 +1,71 @@
+main: com.mcspacecraft.museum.Museum
+name: Museum
+version: '1.0'
+description: MCSpaceCraft Museum Core Functionality
+load: POSTWORLD
+author: Catalin Ionescu
+
+commands:
+  island:
+    aliases:
+    - is
+    - i
+    description: Island command
+    permission: island.use
+    permission-message: You do not have permission to run this command!
+    usage: /<command> [info|tp|visit|home]
+  spawn:
+    description: Teleport to spawn
+    permission: misc.use
+  rules:
+    description: Display the server rules
+    permission: misc.use
+  warp:
+    description: Teleport to a player made location
+    permission: misc.use
+    usage: /<command> <name>
+  econ:
+    aliases:
+    - bal
+    - balance
+    description: Displays your money
+    permission: misc.use
+  played:
+    aliases:
+    - playtime
+    description: Displays how much time you've spent on the server
+    permission: misc.use
+    usage: /<command> <name>
+  museum:
+    aliases:
+    - core
+    - c
+    description: Core Museum functionality. Admins only command.
+    permission: core.admin
+
+permissions:
+  core.admin:
+    description: Allows running most core commands
+    default: op
+  core.*:
+    description: All core permissions
+    children:
+      core.admin: true
+
+  misc.use:
+    description: Allows running misc commands
+    default: true
+  misc.*:
+    description: All misc permissions
+    children:
+      misc.use: true
+
+  island.use:
+    description: Allows running the island command
+    default: true
+  island.*:
+    description: All Island permissions
+    children:
+      island.use: true
+
+api-version: '1.19'

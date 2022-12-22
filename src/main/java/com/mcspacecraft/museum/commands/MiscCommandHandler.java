@@ -14,11 +14,8 @@ import com.mcspacecraft.museum.warps.Warp;
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.CommandCompletion;
-import co.aikar.commands.annotation.Optional;
-import co.aikar.commands.annotation.Subcommand;
 import co.aikar.commands.annotation.Values;
 
-@CommandAlias("museum|core|c")
 public class MiscCommandHandler extends BaseCommand {
     private Museum plugin;
 
@@ -26,19 +23,16 @@ public class MiscCommandHandler extends BaseCommand {
         this.plugin = plugin;
     }
 
-    @Subcommand("spawn")
     @CommandAlias("spawn")
     public void cmdHome(Player player) {
         tpToWarp(player, "spawn");
     }
 
-    @Subcommand("rules")
     @CommandAlias("rules")
     public void cmdRules(CommandSender sender) {
         sender.sendMessage(ChatMessages.getMessage("rules"));
     }
 
-    @Subcommand("warp")
     @CommandAlias("warp")
     @CommandCompletion("@warps")
     public void cmdWarp(Player player, @Values("@warps") String target) {
@@ -61,31 +55,30 @@ public class MiscCommandHandler extends BaseCommand {
         }
     }
 
-    @Subcommand("econ|bal|balance")
     @CommandAlias("econ|bal|balance")
     public void cmdEcon(CommandSender sender) {
         sender.sendMessage(ChatMessages.getMessage("econ"));
     }
 
-    @Subcommand("played")
-    @CommandCompletion("@playtime")
-    public void cmdPlayed(Player player, @Optional @Values("@playtime") String target) {
-        String targetName = target == null ? player.getName() : target;
+    @CommandAlias("played|playtime")
+    @CommandCompletion("@playertime")
+    public void cmdPlayed(CommandSender sender, @Values("@playertime") String target) {
+        String targetName = target == null ? sender.getName() : target;
 
         if (!plugin.getPlayTimeManager().hasPlayTime(targetName)) {
             if (target == null) {
-                player.sendMessage(ChatMessages.getMessage("playtime.norecord.self"));
+                sender.sendMessage(ChatMessages.getMessage("playtime.norecord.self"));
             } else {
-                player.sendMessage(ChatMessages.getMessage("playtime.norecord.other", "player", targetName));
+                sender.sendMessage(ChatMessages.getMessage("playtime.norecord.other", "player", targetName));
             }
             return;
         }
 
         String playTime = PlayTimeManager.timestampToString(plugin.getPlayTimeManager().getPlayTime(targetName));
         if (target == null) {
-            player.sendMessage(ChatMessages.getMessage("playtime.self", "played", playTime));
+            sender.sendMessage(ChatMessages.getMessage("playtime.self", "played", playTime));
         } else {
-            player.sendMessage(ChatMessages.getMessage("playtime.other", "played", playTime));
+            sender.sendMessage(ChatMessages.getMessage("playtime.other", "played", playTime));
         }
     }
 }

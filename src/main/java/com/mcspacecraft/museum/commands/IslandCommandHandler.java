@@ -2,7 +2,6 @@ package com.mcspacecraft.museum.commands;
 
 import java.text.SimpleDateFormat;
 
-import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -13,6 +12,7 @@ import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import com.mcspacecraft.islandworld.entity.SimpleIslandV4;
 import com.mcspacecraft.museum.Museum;
 import com.mcspacecraft.museum.util.ChatMessages;
+import com.mcspacecraft.museum.util.StringUtils;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
