@@ -1,5 +1,9 @@
 package com.mcspacecraft.museum.timeismoney;
 
+import java.util.Arrays;
+import java.util.List;
+
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
@@ -32,33 +36,33 @@ public class ATM implements Listener {
             // 70 - stone pressure plate            
             
             // Player clicked on any of the ATM buttons to get the money?
-            if (b.getType().getId() == 77 && (
-                    b.getRelative(0, 0, -1).getType().getId() == 68 && b.getRelative(0, 0, -2).getType().getId() == 77 &&  b.getRelative(-1, -1, -1).getType().getId() == 70 &&  b.getRelative(-2, -1, -1).getType().getId() == 70 ||                     
-                    b.getRelative(0, 0, 1).getType().getId() == 68 && b.getRelative(0, 0, 2).getType().getId() == 77 && b.getRelative(1, -1, 1).getType().getId() == 70 &&  b.getRelative(2, -1, 1).getType().getId() == 70 || 
-                    b.getRelative(1, 0, 0).getType().getId() == 68 && b.getRelative(2, 0, 0).getType().getId() == 77 && b.getRelative(1, -1, -1).getType().getId() == 70 &&  b.getRelative(1, -1, -2).getType().getId() == 70 || 
-                    b.getRelative(-1, 0, 0).getType().getId() == 68 && b.getRelative(-2, 0, 0).getType().getId() == 77 && b.getRelative(-1, -1, 1).getType().getId() == 70 &&  b.getRelative(-1, -1, 2).getType().getId() == 70 || 
-                    b.getRelative(0, 0, 1).getType().getId() == 68 && b.getRelative(0, 0, 2).getType().getId() == 77 && b.getRelative(-1, -1, 1).getType().getId() == 70 &&  b.getRelative(-2, -1, 1).getType().getId() == 70 || 
-                    b.getRelative(0, 0, -1).getType().getId() == 68 && b.getRelative(0, 0, -2).getType().getId() == 77 && b.getRelative(1, -1, -1).getType().getId() == 70 && b.getRelative(2, -1, -1).getType().getId() == 70 || 
-                    b.getRelative(-1, 0, 0).getType().getId() == 68 && b.getRelative(-2, 0, 0).getType().getId() == 77 && b.getRelative(-1, -1, -1).getType().getId() == 70 &&  b.getRelative(-1, -1, -2).getType().getId() == 70 || 
-                    b.getRelative(1, 0, 0).getType().getId() == 68 && b.getRelative(2, 0, 0).getType().getId() == 77 && b.getRelative(1, -1, 1).getType().getId() == 70 && b.getRelative(1, -1, 2).getType().getId() == 70)) {
+            if (isButton(b.getType()) && (
+                    isWallSign(b.getRelative(0, 0, -1).getType()) && isButton(b.getRelative(0, 0, -2).getType()) &&  isPressurePlate(b.getRelative(-1, -1, -1).getType()) &&  isPressurePlate(b.getRelative(-2, -1, -1).getType()) ||                     
+                    isWallSign(b.getRelative(0, 0, 1).getType()) && isButton(b.getRelative(0, 0, 2).getType()) && isPressurePlate(b.getRelative(1, -1, 1).getType()) &&  isPressurePlate(b.getRelative(2, -1, 1).getType()) || 
+                    isWallSign(b.getRelative(1, 0, 0).getType()) && isButton(b.getRelative(2, 0, 0).getType()) && isPressurePlate(b.getRelative(1, -1, -1).getType()) &&  isPressurePlate(b.getRelative(1, -1, -2).getType()) || 
+                    isWallSign(b.getRelative(-1, 0, 0).getType()) && isButton(b.getRelative(-2, 0, 0).getType()) && isPressurePlate(b.getRelative(-1, -1, 1).getType()) &&  isPressurePlate(b.getRelative(-1, -1, 2).getType()) || 
+                    isWallSign(b.getRelative(0, 0, 1).getType()) && isButton(b.getRelative(0, 0, 2).getType()) && isPressurePlate(b.getRelative(-1, -1, 1).getType()) &&  isPressurePlate(b.getRelative(-2, -1, 1).getType()) || 
+                    isWallSign(b.getRelative(0, 0, -1).getType()) && isButton(b.getRelative(0, 0, -2).getType()) && isPressurePlate(b.getRelative(1, -1, -1).getType()) && isPressurePlate(b.getRelative(2, -1, -1).getType()) || 
+                    isWallSign(b.getRelative(-1, 0, 0).getType()) && isButton(b.getRelative(-2, 0, 0).getType()) && isPressurePlate(b.getRelative(-1, -1, -1).getType()) &&  isPressurePlate(b.getRelative(-1, -1, -2).getType()) || 
+                    isWallSign(b.getRelative(1, 0, 0).getType()) && isButton(b.getRelative(2, 0, 0).getType()) && isPressurePlate(b.getRelative(1, -1, 1).getType()) && isPressurePlate(b.getRelative(1, -1, 2).getType()))) {
                 
                 int dx = 0;
                 int dy = 0;
                 int dz = 0;
                 
-                if (b.getRelative(1, 0, 0).getType().getId() == 68) {
+                if (isWallSign(b.getRelative(1, 0, 0).getType())) {
                     dx = 1;
                     dy = 0;
                     dz = 0;
-                } else if (b.getRelative(-1, 0, 0).getType().getId() == 68) {
+                } else if (isWallSign(b.getRelative(-1, 0, 0).getType())) {
                     dx = -1;
                     dy = 0;
                     dz = 0;
-                } else if (b.getRelative(0, 0, 1).getType().getId() == 68) {
+                } else if (isWallSign(b.getRelative(0, 0, 1).getType())) {
                     dx = 0;
                     dy = 0;
                     dz = 1;
-                } else if (b.getRelative(0, 0, -1).getType().getId() == 68) {
+                } else if (isWallSign(b.getRelative(0, 0, -1).getType())) {
                     dx = 0;
                     dy = 0;
                     dz = -1;
@@ -78,29 +82,29 @@ public class ATM implements Listener {
         } else if (event.getAction() == Action.PHYSICAL) {
             Block b = event.getClickedBlock();
             // Player steps on the 2nd pressure plate (away from the sign)?
-            if (b.getType().getId() == 70 && (
-                    b.getRelative(2, 1, 0).getType().getId() == 68 && b.getRelative(2, 1, -1).getType().getId() == 77 && b.getRelative(2, 1, 1).getType().getId() == 77 && b.getRelative(1, 0, 0).getType().getId() == 70 || 
-                    b.getRelative(-2, 1, 0).getType().getId() == 68 && b.getRelative(-2, 1, -1).getType().getId() == 77 && b.getRelative(-2, 1, 1).getType().getId() == 77 && b.getRelative(-1, 0, 0).getType().getId() == 70 || 
-                    b.getRelative(0, 1, 2).getType().getId() == 68 && b.getRelative(-1, 1, 2).getType().getId() == 77 && b.getRelative(1, 1, 2).getType().getId() == 77 && b.getRelative(0, 0, 1).getType().getId() == 70 || 
-                    b.getRelative(0, 1, -2).getType().getId() == 68 && b.getRelative(-1, 1, -2).getType().getId() == 77 && b.getRelative(1, 1, -2).getType().getId() == 77 && b.getRelative(0, 0, -1).getType().getId() == 70)) {
+            if (isPressurePlate(b.getType()) && (
+                    isWallSign(b.getRelative(2, 1, 0).getType()) && isButton(b.getRelative(2, 1, -1).getType()) && isButton(b.getRelative(2, 1, 1).getType()) && isPressurePlate(b.getRelative(1, 0, 0).getType()) || 
+                    isWallSign(b.getRelative(-2, 1, 0).getType()) && isButton(b.getRelative(-2, 1, -1).getType()) && isButton(b.getRelative(-2, 1, 1).getType()) && isPressurePlate(b.getRelative(-1, 0, 0).getType()) || 
+                    isWallSign(b.getRelative(0, 1, 2).getType()) && isButton(b.getRelative(-1, 1, 2).getType()) && isButton(b.getRelative(1, 1, 2).getType()) && isPressurePlate(b.getRelative(0, 0, 1).getType()) || 
+                    isWallSign(b.getRelative(0, 1, -2).getType()) && isButton(b.getRelative(-1, 1, -2).getType()) && isButton(b.getRelative(1, 1, -2).getType()) && isPressurePlate(b.getRelative(0, 0, -1).getType()))) {
 
                 int dx = 0;
                 int dy = 0;
                 int dz = 0;
 
-                if (b.getRelative(2, 1, 0).getType().getId() == 68) {
+                if (isWallSign(b.getRelative(2, 1, 0).getType())) {
                     dx = 2;
                     dy = 1;
                     dz = 0;
-                } else if (b.getRelative(-2, 1, 0).getType().getId() == 68) {
+                } else if (isWallSign(b.getRelative(-2, 1, 0).getType())) {
                     dx = -2;
                     dy = 1;
                     dz = 0;
-                } else if (b.getRelative(0, 1, 2).getType().getId() == 68) {
+                } else if (isWallSign(b.getRelative(0, 1, 2).getType())) {
                     dx = 0;
                     dy = 1;
                     dz = 2;
-                } else if (b.getRelative(0, 1, -2).getType().getId() == 68) {
+                } else if (isWallSign(b.getRelative(0, 1, -2).getType())) {
                     dx = 0;
                     dy = 1;
                     dz = -2;
@@ -115,29 +119,29 @@ public class ATM implements Listener {
             }
 
             // Player steps on the 1st pressure plate (next to the sign)?
-            if (b.getType().getId() == 70 && (
-                    b.getRelative(1, 1, 0).getType().getId() == 68 && b.getRelative(1, 1, -1).getType().getId() == 77 && b.getRelative(1, 1, 1).getType().getId() == 77 && b.getRelative(-1, 0, 0).getType().getId() == 70 || 
-                    b.getRelative(-1, 1, 0).getType().getId() == 68 && b.getRelative(-1, 1, -1).getType().getId() == 77 && b.getRelative(-1, 1, 1).getType().getId() == 77 && b.getRelative(1, 0, 0).getType().getId() == 70 ||
-                    b.getRelative(0, 1, 1).getType().getId() == 68 && b.getRelative(-1, 1, 1).getType().getId() == 77 && b.getRelative(1, 1, 1).getType().getId() == 77 && b.getRelative(0, 0, -1).getType().getId() == 70 ||
-                    b.getRelative(0, 1, -1).getType().getId() == 68 && b.getRelative(-1, 1, -1).getType().getId() == 77 && b.getRelative(1, 1, -1).getType().getId() == 77 && b.getRelative(0, 0, 1).getType().getId() == 70)) {
+            if (isPressurePlate(b.getType()) && (
+                    isWallSign(b.getRelative(1, 1, 0).getType()) && isButton(b.getRelative(1, 1, -1).getType()) && isButton(b.getRelative(1, 1, 1).getType()) && isPressurePlate(b.getRelative(-1, 0, 0).getType()) || 
+                    isWallSign(b.getRelative(-1, 1, 0).getType()) && isButton(b.getRelative(-1, 1, -1).getType()) && isButton(b.getRelative(-1, 1, 1).getType()) && isPressurePlate(b.getRelative(1, 0, 0).getType()) ||
+                    isWallSign(b.getRelative(0, 1, 1).getType()) && isButton(b.getRelative(-1, 1, 1).getType()) && isButton(b.getRelative(1, 1, 1).getType()) && isPressurePlate(b.getRelative(0, 0, -1).getType()) ||
+                    isWallSign(b.getRelative(0, 1, -1).getType()) && isButton(b.getRelative(-1, 1, -1).getType()) && isButton(b.getRelative(1, 1, -1).getType()) && isPressurePlate(b.getRelative(0, 0, 1).getType()))) {
 
                 int dx = 0;
                 int dy = 0;
                 int dz = 0;
 
-                if (b.getRelative(1, 1, 0).getType().getId() == 68) {
+                if (isWallSign(b.getRelative(1, 1, 0).getType())) {
                     dx = 1;
                     dy = 1;
                     dz = 0;
-                } else if (b.getRelative(-1, 1, 0).getType().getId() == 68) {
+                } else if (isWallSign(b.getRelative(-1, 1, 0).getType())) {
                     dx = -1;
                     dy = 1;
                     dz = 0;
-                } else if (b.getRelative(0, 1, 1).getType().getId() == 68) {
+                } else if (isWallSign(b.getRelative(0, 1, 1).getType())) {
                     dx = 0;
                     dy = 1;
                     dz = 1;
-                } else if (b.getRelative(0, 1, -1).getType().getId() == 68) {
+                } else if (isWallSign(b.getRelative(0, 1, -1).getType())) {
                     dx = 0;
                     dy = 1;
                     dz = -1;
@@ -150,5 +154,27 @@ public class ATM implements Listener {
                 sign.update();
             }
         }
+    }
+
+    private static List<Material> PRESSURE_PLATES = Arrays.asList(Material.ACACIA_PRESSURE_PLATE, Material.BAMBOO_PRESSURE_PLATE, Material.BIRCH_PRESSURE_PLATE, Material.CRIMSON_PRESSURE_PLATE,
+        Material.DARK_OAK_PRESSURE_PLATE, Material.HEAVY_WEIGHTED_PRESSURE_PLATE, Material.JUNGLE_PRESSURE_PLATE, Material.LIGHT_WEIGHTED_PRESSURE_PLATE, Material.MANGROVE_PRESSURE_PLATE,
+        Material.OAK_PRESSURE_PLATE, Material.POLISHED_BLACKSTONE_PRESSURE_PLATE, Material.SPRUCE_PRESSURE_PLATE, Material.STONE_PRESSURE_PLATE, Material.WARPED_PRESSURE_PLATE);
+
+    public static boolean isPressurePlate(Material m) {
+        return PRESSURE_PLATES.contains(m);
+    }
+
+    private static List<Material> BUTTONS = Arrays.asList(Material.ACACIA_BUTTON, Material.BAMBOO_BUTTON, Material.BIRCH_BUTTON, Material.CRIMSON_BUTTON, Material.DARK_OAK_BUTTON, Material.JUNGLE_BUTTON,
+        Material.MANGROVE_BUTTON, Material.OAK_BUTTON, Material.POLISHED_BLACKSTONE_BUTTON, Material.SPRUCE_BUTTON, Material.STONE_BUTTON, Material.WARPED_BUTTON);
+
+    public static boolean isButton(Material m) {
+        return BUTTONS.contains(m);
+    }
+
+    private static List<Material> WALL_SIGNS = Arrays.asList(Material.ACACIA_WALL_SIGN, Material.BAMBOO_WALL_SIGN, Material.BIRCH_WALL_SIGN, Material.CRIMSON_WALL_SIGN, Material.DARK_OAK_WALL_SIGN,
+        Material.JUNGLE_WALL_SIGN, Material.MANGROVE_WALL_SIGN, Material.OAK_WALL_SIGN, Material.SPRUCE_WALL_SIGN, Material.WARPED_WALL_SIGN);
+
+    public static boolean isWallSign(Material m) {
+        return WALL_SIGNS.contains(m);
     }
 }

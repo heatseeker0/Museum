@@ -1,17 +1,12 @@
 BUGFIXES:
 
 TODO:
-- Fix up ATMs "java.lang.IllegalArgumentException: Cannot get ID of Modern Material" 
 - Add color formatting to /played display messages
-
-- Add boss bar display for the zone the player is in
 - Add server restart on a timer (ShutdownController)
-- Add scripts to restart Velocity proxy automatically when it dies.
-- Add a very simple fallback server players will be put into when the main server is down.
-- Add a countdown timer to the fallback server for when the server will launch.
-- Allow players to open chests, hoppers and other containers but not to pick up items from chests
-- Allow players to open and close doors, trapdoors
 - Figure out a way to guide players along the server, what commands are available, etc. (worst case a written book, best case an interactive tutorial, we can also put most commonly used commands on the side bar)
+	- add useful commands to "help", displayed on login
+	- add /help command
+
 - tpa tpahere, tpo tpohere
 - Chat formatting?
 - /w, /r
@@ -21,6 +16,10 @@ TODO:
 - mute, unmute
 - Add mockup Shopkeepers
 
+- Add boss bar display for the zone the player is in
+- Add a very simple fallback server players will be put into when the main server is down.
+- Add a countdown timer to the fallback server for when the server will launch.
+
 
 DONE:
 - Install ViaVersion, ViaRewind
@@ -28,3 +27,8 @@ DONE:
 - Add scripts to restart the server automatically when it dies.
 - Add TimeIsMoney
 - Setup players on login: invulnerability, fly ability
+- Fix up ATMs "java.lang.IllegalArgumentException: Cannot get ID of Modern Material" 
+- Allow players to open chests, hoppers and other containers but not to pick up items from chests
+- Allow players to open and close doors, trapdoors
+- Restore world from backup copy
+- Add scripts to restart Velocity proxy automatically when it dies.
