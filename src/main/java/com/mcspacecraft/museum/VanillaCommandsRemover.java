@@ -28,17 +28,17 @@ public class VanillaCommandsRemover {
      * Removes unwanted Minecraft or Bukkit vanilla commands.
      */
     public static void unregisterCommands() {
-        CommandMap commandMap = Bukkit.getCommandMap();
+        // CommandMap commandMap = Bukkit.getCommandMap();
 
-        Map<String, Command> knownCommands = commandMap.getKnownCommands();
+        // Map<String, Command> knownCommands = commandMap.getKnownCommands();
 
-        Museum.getInstance().logInfoMessage("========== Known commands before ============");
-        printKnownCommands(knownCommands);
+        // Museum.getInstance().logInfoMessage("========== Known commands before ============");
+        // printKnownCommands(knownCommands);
 
         realClearCommands();
 
-        Museum.getInstance().logInfoMessage("========== Known commands after ============");
-        printKnownCommands(commandMap.getKnownCommands());
+        // Museum.getInstance().logInfoMessage("========== Known commands after ============");
+        // printKnownCommands(commandMap.getKnownCommands());
     }
 
     private static void realClearCommands() {

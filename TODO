@@ -3,7 +3,6 @@ BUGFIXES:
 TODO:
 - Add boss bar display for the zone the player is in
 - Add server restart on a timer (ShutdownController)
-- Add scripts to restart the server automatically when it dies.
 - Add scripts to restart Velocity proxy automatically when it dies.
 - Add a very simple fallback server players will be put into when the main server is down.
 - Add a countdown timer to the fallback server for when the server will launch.
@@ -25,3 +24,4 @@ TODO:
 DONE:
 - Install ViaVersion, ViaRewind
 - Player falling down to void is stuck in place after teleport to spawn and unable to move.
+- Add scripts to restart the server automatically when it dies.

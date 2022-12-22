@@ -78,7 +78,7 @@ public class MiscCommandHandler extends BaseCommand {
         if (target == null) {
             sender.sendMessage(ChatMessages.getMessage("playtime.self", "played", playTime));
         } else {
-            sender.sendMessage(ChatMessages.getMessage("playtime.other", "played", playTime));
+            sender.sendMessage(ChatMessages.getMessage("playtime.other", "player", target, "played", playTime));
         }
     }
 }
