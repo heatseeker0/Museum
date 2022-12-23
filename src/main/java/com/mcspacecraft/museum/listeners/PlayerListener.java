@@ -36,6 +36,7 @@ public class PlayerListener implements Listener {
         player.setAllowFlight(true);
         player.setGameMode(GameMode.SURVIVAL);
         player.setHealth(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
+        player.setInvulnerable(true);
 
         if (!player.isOp()) {
             player.getInventory().clear();
