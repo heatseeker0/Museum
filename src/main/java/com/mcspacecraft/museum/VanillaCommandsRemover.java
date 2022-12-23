@@ -22,7 +22,7 @@ public class VanillaCommandsRemover {
         // Our own commands
         "island", "is", "i",
         "museum", "core", "c",
-        "spawn", "rules", "warp", "econ", "bal", "balance", "played", "playtime");
+        "spawn", "rules", "warp", "econ", "bal", "balance", "played", "playtime", "help");
 
     /**
      * Removes unwanted Minecraft or Bukkit vanilla commands.

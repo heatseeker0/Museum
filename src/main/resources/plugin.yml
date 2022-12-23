@@ -36,6 +36,10 @@ commands:
     description: Displays how much time you've spent on the server
     permission: misc.use
     usage: /<command> <name>
+  help:
+    description: Displays available commands
+    permission: misc.use
+    usage: /<command>
   museum:
     aliases:
     - core

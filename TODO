@@ -3,12 +3,7 @@ BUGFIXES:
 TODO:
 - Fix terrain generator to make just void
 
-- Add color formatting to /played display messages
 - Add server restart on a timer (ShutdownController)
-- Figure out a way to guide players along the server, what commands are available, etc. (worst case a written book, best case an interactive tutorial, we can also put most commonly used commands on the side bar)
-	- add useful commands to "help", displayed on login
-	- add /help command
-
 - tpa tpahere, tpo tpohere
 
 - Chat formatting?
@@ -36,3 +31,8 @@ DONE:
 - Add scripts to restart Velocity proxy automatically when it dies.
 - Stop spawners from spawning mobs
 - Add boss bar display for the zone the player is in
+- Add color formatting to /played display messages
+- Figure out a way to guide players along the server, what commands are available, etc. (worst case a written book, best case an interactive tutorial, we can also put most commonly used commands on the side bar)
+	- add useful commands to "help", displayed on login
+	- add /help command
+

@@ -82,4 +82,9 @@ public class MiscCommandHandler extends BaseCommand {
             sender.sendMessage(ChatMessages.getMessage("playtime.other", "player", target, "played", playTime));
         }
     }
+
+    @CommandAlias("help")
+    public void cmdHelp(CommandSender sender) {
+        sender.sendMessage(ChatMessages.getMessage("help"));
+    }
 }

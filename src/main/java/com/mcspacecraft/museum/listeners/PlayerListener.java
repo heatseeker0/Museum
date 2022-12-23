@@ -43,7 +43,9 @@ public class PlayerListener implements Listener {
         }
 
         player.teleport(Museum.getInstance().getWarpManager().getWarp("spawn").getLocation(Bukkit.getWorlds().get(0)), false, true);
+
         player.sendMessage(ChatMessages.getMessage("welcome"));
+        player.sendMessage(ChatMessages.getMessage("help"));
     }
 
     @EventHandler
