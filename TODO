@@ -1,6 +1,10 @@
 BUGFIXES:
 
 TODO:
+- Stop spawners from spawning mobs
+- Fix terrain generator to make just void
+- Add boss bar display for the zone the player is in
+
 - Add color formatting to /played display messages
 - Add server restart on a timer (ShutdownController)
 - Figure out a way to guide players along the server, what commands are available, etc. (worst case a written book, best case an interactive tutorial, we can also put most commonly used commands on the side bar)
@@ -8,6 +12,7 @@ TODO:
 	- add /help command
 
 - tpa tpahere, tpo tpohere
+
 - Chat formatting?
 - /w, /r
 - gc
@@ -16,7 +21,6 @@ TODO:
 - mute, unmute
 - Add mockup Shopkeepers
 
-- Add boss bar display for the zone the player is in
 - Add a very simple fallback server players will be put into when the main server is down.
 - Add a countdown timer to the fallback server for when the server will launch.
 
