@@ -11,6 +11,7 @@ import com.google.common.collect.ImmutableList;
 import com.mcspacecraft.museum.commands.IslandCommandHandler;
 import com.mcspacecraft.museum.commands.MiscCommandHandler;
 import com.mcspacecraft.museum.commands.MuseumCommandHandler;
+import com.mcspacecraft.museum.islands.IslandDisplayManager;
 import com.mcspacecraft.museum.islands.IslandManager;
 import com.mcspacecraft.museum.listeners.ChatHandlerListener;
 import com.mcspacecraft.museum.listeners.PlayerListener;
@@ -31,6 +32,7 @@ public class Museum extends JavaPlugin {
     private IslandManager islandManager;
     private WarpManager warpManager;
     private PlayTimeManager playTimeManager;
+    private IslandDisplayManager islandDisplayManager;
 
     @Override
     public void onEnable() {
@@ -77,6 +79,9 @@ public class Museum extends JavaPlugin {
             manager.getCommandCompletions().registerCompletion("playertime", c -> playTimeManager.getPlayers());
 
             pluginManager.registerEvents(new ATM(), this);
+
+            islandDisplayManager = new IslandDisplayManager();
+            islandDisplayManager.load();
         }, 20);
     }
 
