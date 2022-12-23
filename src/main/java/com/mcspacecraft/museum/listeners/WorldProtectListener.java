@@ -15,6 +15,7 @@ import org.bukkit.event.block.BlockFormEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.block.BlockSpreadEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
+import org.bukkit.event.entity.SpawnerSpawnEvent;
 import org.bukkit.event.hanging.HangingBreakByEntityEvent;
 import org.bukkit.event.hanging.HangingPlaceEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -251,5 +252,10 @@ public class WorldProtectListener implements Listener {
             livingEntity.setPersistent(true);
             livingEntity.setRemoveWhenFarAway(false);
         }
+    }
+
+    @EventHandler
+    public void onMobSpawn(SpawnerSpawnEvent event) {
+        event.setCancelled(true);
     }
 }
